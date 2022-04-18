@@ -79,7 +79,7 @@ class VideosGenerator():
         images = np.array(images, dtype=np.uint8)
         boxes = np.array(boxes, dtype=np.float32)
         meta = np.array(meta, dtype=object)
-        return {"images": images, "boxes": boxes, "meta": meta}
+        return self.on_get_item(images, boxes, meta)
 
     def __format_tracks(self, track: Any, source_index: int) -> List:
         """ Parse XML track node appending source index at the beginning of boxes arrays."""
@@ -113,3 +113,6 @@ class VideosGenerator():
             Docs: https://www.tensorflow.org/api_docs/python/tf/keras/utils/Sequence#on_epoch_end."""
         indices = np.random.permutation(len(self.dataset))
         self.dataset = self.dataset[indices]
+
+    def on_get_item(self, images: np.ndarray, boxes: np.ndarray, meta: np.ndarray) -> Tuple:
+        return (images, boxes, meta)
